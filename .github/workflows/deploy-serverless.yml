@@ -31,5 +31,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1  # Use the same region as in your serverless.yml
 
+      - name: Serverless Authentication
+        run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile default
+
+      - name: Deploy with Serverless Framework
+        env:
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        run: serverless deploy
+        
       - name: Deploy to AWS
         run: serverless deploy
