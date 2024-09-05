@@ -1,0 +1,27 @@
+service: weather-data-service  # Name of your service
+
+provider:
+  name: aws
+  runtime: python3.12  # Choose your Python runtime
+  region: eu-west-1   # Specify your preferred AWS region
+
+functions:
+  fetchWeatherData:
+    handler: src/handler.fetch_weather_data  # Path to the function in your Python code
+    events:
+      - schedule:
+          rate: rate(10 minutes)  # Example of a scheduled event every 10 minutes
+          enabled: true
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    zip: true
+
+package:
+  exclude:
+    - .github/**  # Exclude GitHub Actions files from deployment package
+    - .gitignore
