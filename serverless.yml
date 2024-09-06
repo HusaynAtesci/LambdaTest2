@@ -26,4 +26,4 @@ custom:
 package:
   exclude:
     - .github/**  # Exclude GitHub Actions files from deployment package
-    - .gitignore #aaa
+    - .gitignore 
