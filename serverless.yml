@@ -2,7 +2,7 @@ service: weather-data-service  # Name of your service
 
 provider:
   name: aws
-  runtime: python3.12  # Choose your Python runtime
+  runtime: python3.8  # Supported Python runtime by AWS Lambda
   region: eu-west-1   # Specify your preferred AWS region
 
 functions:
@@ -18,8 +18,8 @@ plugins:
 
 custom:
   pythonRequirements:
-    dockerizePip: true
-    zip: true
+    dockerizePip: true  # Use Docker to build requirements to ensure compatibility
+    zip: true           # Zip the deployment package
 
 package:
   exclude:
