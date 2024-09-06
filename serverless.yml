@@ -20,8 +20,10 @@ plugins:
 
 custom:
   pythonRequirements:
-    dockerizePip: true  # Use Docker to build requirements to ensure compatibility
-    zip: true           # Zip the deployment package
+    dockerizePip: non-linux  # This option will use Docker when not on a Linux system.
+    slim: true               # This reduces the package size by stripping out unnecessary files.
+    zip: true                # Packages your Python dependencies in a zip file.
+    noDeploy: []             # Ensures no dependencies are marked for non-deployment.
 
 package:
   exclude:
