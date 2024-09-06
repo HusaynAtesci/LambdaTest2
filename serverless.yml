@@ -4,6 +4,8 @@ provider:
   name: aws
   runtime: python3.8  # Supported Python runtime by AWS Lambda
   region: eu-west-1   # Specify your preferred AWS region
+  deploymentBucket:
+    name: lambda-deployment-packages-yourusername  # Specify your custom deployment bucket
 
 functions:
   fetchWeatherData:
