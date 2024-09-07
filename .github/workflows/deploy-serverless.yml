@@ -18,21 +18,16 @@ jobs:
         with:
           node-version: '18.20.4'
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
-
-      - name: Verify Python version
+      - name: Clear npm cache and reinstall dependencies
         run: |
-          python --version
-          python3 --version
-          python3.8 --version
-          which python3.8
+          npm cache clean --force
+          npm install --legacy-peer-deps
 
-      - name: Install dependencies
-        run: |
-          npm install
+      - name: Install fs-extra globally
+        run: npm install -g fs-extra
+
+      - name: Log fs-extra path
+        run: find /home/runner/work/ -name fs-extra
 
       - name: Install Serverless CLI
         run: npm install -g serverless@3.6
@@ -46,3 +41,6 @@ jobs:
 
       - name: Deploy with Serverless Framework
         run: serverless deploy
+
+      - name: Output serverless deployment info
+        run: serverless info
