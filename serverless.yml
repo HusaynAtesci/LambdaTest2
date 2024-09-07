@@ -2,7 +2,7 @@ service: weather-data-service  # Name of your service
 
 provider:
   name: aws
-  runtime: python3.8  # Supported Python runtime by AWS Lambda
+  runtime: python3.8  # Supported Python runtime by AWS Lambdas
   region: eu-west-1   # Specify your preferred AWS region
   deploymentBucket:
     name: lambda-deployment-packages-yourusername  # Specify your custom deployment bucket
