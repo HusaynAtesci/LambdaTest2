@@ -16,36 +16,36 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18.20.4'  # Specify the Node.js version
+          node-version: '18.20.4'  # Specify the Node.js version to match your local development environment
 
       - name: Clear npm cache and reinstall dependencies
         run: |
           npm cache clean --force
-          npm install
-
-      - name: Install dependencies
-        run: |
-          npm cache clean --force
-          rm -rf node_modules
-          npm install
+          rm -rf node_modules  # Remove existing node_modules
+          npm install  # Install dependencies as specified in package.json
 
       - name: Install Serverless CLI
-        run: npm install -g serverless@3.6  # Ensure the correct version of Serverless is used
-
-      - name: Install serverless-python-requirements plugin
         run: |
-          npm install --save-dev serverless-python-requirements
+          npm install -g serverless@3.6  # Install a specific version of Serverless globally
+
+      - name: Install Serverless Python Requirements Plugin
+        run: |
+          npm install --save-dev serverless-python-requirements  # Ensure the Serverless Python Requirements plugin is installed
+
+      - name: Check fs-extra installation
+        run: |
+          ls node_modules/fs-extra  # List fs-extra to confirm installation
+          ls node_modules/serverless-python-requirements/node_modules/fs-extra  # Additional check within the plugin directory
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1  # Use the same region as in your serverless.yml
+          aws-region: eu-west-1  # Match the region to your Serverless configuration
 
       - name: Deploy with Serverless Framework
         run: serverless deploy
 
-      - name: Output serverless deployment
-        run: |
-          serverless info
+      - name: Output serverless deployment info
+        run: serverless info  # Optionally display deployment information after deployment
