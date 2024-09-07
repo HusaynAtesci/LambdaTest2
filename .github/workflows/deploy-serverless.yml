@@ -13,20 +13,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          python-version: '3.8'  # Align this with the Lambda's runtime version
+          node-version: '18.20.4'  # Specify the Node.js version
 
-      - name: Install dependencies
+      - name: Clear npm cache and reinstall dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install requests
+          npm cache clean --force
+          npm install
 
-      - name: Install Serverless and plugins
+      - name: List installed packages
         run: |
-          npm install -g serverless@3.6  # Ensure the correct version of Serverless is used
-          npm install -g serverless-python-requirements  # Install required Serverless plugin
+          echo "Listing top-level packages"
+          npm list --depth=0
+          echo "Checking for fs-extra in serverless-python-requirements"
+          ls node_modules/serverless-python-requirements/node_modules/ | grep fs-extra
+
+      - name: Install Serverless CLI
+        run: npm install -g serverless@3.6  # Ensure the correct version of Serverless is used
+
+      - name: Install serverless-python-requirements plugin
+        run: |
+          npm install --save-dev serverless-python-requirements
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -37,3 +46,7 @@ jobs:
 
       - name: Deploy with Serverless Framework
         run: serverless deploy
+
+      - name: Output serverless deployment
+        run: |
+          serverless info
